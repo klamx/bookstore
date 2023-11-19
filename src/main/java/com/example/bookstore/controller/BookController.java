@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.error.BookAlreadyExistException;
 import com.example.bookstore.error.BookNotFoundException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
@@ -26,12 +27,12 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createBook(@RequestBody Book book) {
+    public ResponseEntity<Object> createBook(@RequestBody Book book) throws BookAlreadyExistException {
         return this.bookService.createBook(book);
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateBook(@RequestBody Book book) {
+    public ResponseEntity<Object> updateBook(@RequestBody Book book) throws BookAlreadyExistException, BookNotFoundException {
         return this.bookService.updateBook(book);
     }
 

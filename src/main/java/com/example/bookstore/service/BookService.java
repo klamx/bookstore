@@ -1,5 +1,6 @@
 package com.example.bookstore.service;
 
+import com.example.bookstore.error.BookAlreadyExistException;
 import com.example.bookstore.error.BookNotFoundException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
@@ -30,18 +31,11 @@ public class BookService {
         return books;
     }
 
-    public ResponseEntity<Object> createBook(Book book) {
+    public ResponseEntity<Object> createBook(Book book) throws BookAlreadyExistException {
         int res = this.bookRepository.findAllByTitleAndAuthor(book.getAuthor(), book.getTitle());
         HashMap<String, Object> response = new HashMap<>();
         if (res > 0) {
-            response.put("success", false);
-            response.put("message", "Book already exist in the catalog");
-            response.put("related books", res);
-
-            return new ResponseEntity<Object>(
-                    response,
-                    HttpStatus.CONFLICT
-            );
+            throw new BookAlreadyExistException("Book already exist in the catalog");
         }
 
         this.bookRepository.save(book);
@@ -55,29 +49,16 @@ public class BookService {
         );
     }
 
-    public ResponseEntity<Object> updateBook(Book book) {
+    public ResponseEntity<Object> updateBook(Book book) throws BookAlreadyExistException, BookNotFoundException {
         Optional<Book> res = this.bookRepository.findById(book.getId());
         int count = this.bookRepository.findAllByTitleAndAuthorAndID(book.getAuthor(), book.getTitle(), book.getId());
 
         HashMap<String, Object> response = new HashMap<>();
         if (count > 0) {
-            response.put("success", false);
-            response.put("message", "Book already exist in the catalog");
-
-            return new ResponseEntity<Object>(
-                    response,
-                    HttpStatus.CONFLICT
-            );
+            throw new BookAlreadyExistException("Book already exist in the catalog");
         }
         if (!res.isPresent()) {
-
-            response.put("success", false);
-            response.put("message", "Book not found in the catalog");
-
-            return new ResponseEntity<Object>(
-                    response,
-                    HttpStatus.NOT_FOUND
-            );
+            throw new BookNotFoundException("Books not found in the catalog");
         }
 
         this.bookRepository.save(book);
