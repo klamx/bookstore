@@ -1,7 +1,8 @@
-package com.example.bookstore.books.service;
+package com.example.bookstore.service;
 
-import com.example.bookstore.books.model.Book;
-import com.example.bookstore.books.repository.BookRepository;
+import com.example.bookstore.error.BookNotFoundException;
+import com.example.bookstore.model.Book;
+import com.example.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,12 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getAllBooks() {
-        return this.bookRepository.findAll();
+    public List<Book> getAllBooks() throws BookNotFoundException {
+        List<Book> books = this.bookRepository.findAll();
+        if (books.isEmpty()) {
+            throw new BookNotFoundException("Books not found in the catalog");
+        }
+        return books;
     }
 
     public ResponseEntity<Object> createBook(Book book) {

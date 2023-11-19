@@ -1,7 +1,8 @@
-package com.example.bookstore.books.controller;
+package com.example.bookstore.controller;
 
-import com.example.bookstore.books.model.Book;
-import com.example.bookstore.books.service.BookService;
+import com.example.bookstore.error.BookNotFoundException;
+import com.example.bookstore.model.Book;
+import com.example.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAll() {
+    public List<Book> getAll() throws BookNotFoundException {
         return this.bookService.getAllBooks();
     }
 

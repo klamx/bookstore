@@ -1,6 +1,7 @@
-package com.example.bookstore.books.model;
+package com.example.bookstore.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -10,9 +11,17 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Title is mandatory")
     private String title;
+
+    @NotBlank(message = "Title is mandatory")
     private String author;
+
+//    @NotBlank(message = "Title is mandatory")
     private LocalDate publicationYear;
+
+    @NotBlank(message = "Title is mandatory")
     private String genre;
 
     public Long getId() {
