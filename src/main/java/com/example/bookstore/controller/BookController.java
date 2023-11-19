@@ -4,6 +4,7 @@ import com.example.bookstore.error.BookAlreadyExistException;
 import com.example.bookstore.error.BookNotFoundException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,12 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createBook(@RequestBody Book book) throws BookAlreadyExistException {
+    public ResponseEntity<Object> createBook(@Valid @RequestBody Book book) throws BookAlreadyExistException {
         return this.bookService.createBook(book);
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateBook(@RequestBody Book book) throws BookAlreadyExistException, BookNotFoundException {
+    public ResponseEntity<Object> updateBook(@Valid @RequestBody Book book) throws BookAlreadyExistException, BookNotFoundException {
         return this.bookService.updateBook(book);
     }
 

@@ -2,8 +2,12 @@ package com.example.bookstore.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "books")
@@ -15,13 +19,13 @@ public class Book {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NotBlank(message = "Title is mandatory")
+    @NotBlank(message = "Author is mandatory")
     private String author;
 
-//    @NotBlank(message = "Title is mandatory")
-    private LocalDate publicationYear;
+    @NotBlank(message = "Publication year is mandatory")
+    private String publicationYear;
 
-    @NotBlank(message = "Title is mandatory")
+    @NotBlank(message = "Genre is mandatory")
     private String genre;
 
     public Long getId() {
@@ -48,12 +52,12 @@ public class Book {
         this.author = autor;
     }
 
-    public LocalDate getPublicationYear() {
+    public String getPublicationYear() {
         return publicationYear;
     }
 
-    public void setPublicationYear(LocalDate year) {
-        this.publicationYear = year;
+    public void setPublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public String getGenre() {
