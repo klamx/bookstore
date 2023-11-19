@@ -58,7 +58,7 @@ public class BookService {
             throw new BookAlreadyExistException("Book already exist in the catalog");
         }
         if (!res.isPresent()) {
-            throw new BookNotFoundException("Books not found in the catalog");
+            throw new BookNotFoundException("Book not found in the catalog");
         }
 
         this.bookRepository.save(book);
